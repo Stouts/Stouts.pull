@@ -1,0 +1,15 @@
+#!/bin/bash
+
+LOGFILE="{{pull_logs_directory}}/pull.log"
+touch $LOGFILE
+
+echo
+echo "PULL: [ansible-pull] run $(date)" >> $LOGFILE
+
+ANSIBLE=$(pidof ansible)
+
+[ $ANSIBLE ] && echo "PULL: [ansible-pull] Ansbile proc running = $(ANSIBLE)" && exit 1
+
+ansible-pull -d {{pull_work_directory}} -U {{pull_repo_url}} -C {{pull_repo_version}} {{"-o" if pull_only_if_changed else ""}} {{ ("-i " + pull_inventory) if pull_inventory else ""}} -{{pull_verbose}} {{pull_playbook}}>> $LOGFILE 2>&1
+
+exit $?

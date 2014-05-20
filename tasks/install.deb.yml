@@ -1,7 +1,11 @@
 ---
 
 - name: pull-install | Install requirements
-  apt: pkg=python-software-properties
+  apt: pkg={{item}}
+  with_items:
+    - cron
+    - logrotate
+    - python-software-properties
 
 - name: pull-install | Add ansible ppa
   apt_repository: repo={{pull_ansible_ppa}}

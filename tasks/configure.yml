@@ -1,14 +1,33 @@
 ---
 
 - name: pull-configure | Ensure for the pull user exists
-  user: name={{pull_user}}
+  user: name={{pull_user}} createhome=yes
+
+- name: pull-configure | Setup fingerprints
+  lineinfile: 
+    line="{{item}}"
+    dest="{{pull_know_hosts_file}}"
+    insertafter="EOF"
+    state="present"
+    create="yes"
+    owner="{{pull_user}}"
+    mode="0644"
+  with_items: pull_fingerprints
+
+- name: pull-configure | Copy private key
+  copy: src={{pull_private_key_path}} dest=~{{pull_user}}/.ssh/id_rsa owner={{pull_user}} mode=0400
+  when: pull_private_key_path != ""
 
 - name: pull-configure | Create pull directories
   file: state=directory owner={{pull_user}} path={{item}} recurse=yes
   with_items:
       - "{{pull_base_directory}}"
       - "{{pull_logs_directory}}"
-      - "{{pull_books_directory}}"
+      - "{{pull_work_directory}}"
+
+
+- name: pull-configure | Configure runscript
+  template: src=pull.sh.j2 dest={{pull_base_directory}}/pull.sh owner={{pull_user}} mode=0755
 
 
 - name: pull-configure | Configure cron
