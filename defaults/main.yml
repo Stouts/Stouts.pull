@@ -1,0 +1,13 @@
+---
+
+pull_enabled: yes
+
+pull_ansible_ppa: ppa:rquillo/ansible
+pull_schedule: '*/15 * * * *'
+pull_user: root
+pull_base_directory: /etc/ansible/local
+pull_logs_directory: "{{pull_base_directory}}/logs"
+pull_books_directory: "{{pull_base_directory}}/books"
+pull_repo_url: ""
+pull_repo_version: "HEAD"
+pull_only_if_changed: no

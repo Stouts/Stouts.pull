@@ -1,0 +1,10 @@
+---
+
+- name: pull-install | Install requirements
+  apt: pkg=python-software-properties
+
+- name: pull-install | Add ansible ppa
+  apt_repository: repo={{pull_ansible_ppa}}
+
+- name: pull-install | Install ansible
+  apt: pkg=ansible
