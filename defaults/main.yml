@@ -1,13 +1,15 @@
 ---
 
-pull_enabled: yes
+pull_enabled: yes                       # The role is enabled
 
-pull_ansible_ppa: ppa:rquillo/ansible
-pull_schedule: '*/15 * * * *'
-pull_user: "{{ansible_ssh_user}}"
-pull_base_directory: /etc/ansible/local
+pull_ansible_ppa: ppa:rquillo/ansible   # Ansible ppa repository
+pull_schedule: '*/15 * * * *'           # ansible-pull schedule
+pull_user: "{{ansible_ssh_user}}"       # ansuble-pull user
+pull_base_directory: /etc/ansible/local # ansible-pull setup directory
 pull_logs_directory: "{{pull_base_directory}}/logs"
 pull_work_directory: "{{pull_base_directory}}/work"
+
+# Repository params
 pull_repo_url: ""
 pull_repo_version: "HEAD"
 pull_only_if_changed: no
