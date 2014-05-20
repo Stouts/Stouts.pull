@@ -6,7 +6,7 @@
 - name: pull-configure | Setup fingerprints
   lineinfile: 
     line="{{item}}"
-    dest="{{pull_know_hosts_file}}"
+    dest="{{pull_user_ssh_home}}/known_hosts"
     insertafter="EOF"
     state="present"
     create="yes"
@@ -15,7 +15,7 @@
   with_items: pull_fingerprints
 
 - name: pull-configure | Copy private key
-  copy: src={{pull_private_key_path}} dest=~{{pull_user}}/.ssh/id_rsa owner={{pull_user}} mode=0400
+  copy: src={{pull_private_key_path}} dest={{pull_user_ssh_home}}/id_rsa owner={{pull_user}} mode=0400
   when: pull_private_key_path != ""
 
 - name: pull-configure | Create pull directories
