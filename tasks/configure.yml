@@ -29,6 +29,8 @@
 - name: pull-configure | Configure runscript
   template: src=pull.sh.j2 dest={{pull_base_directory}}/pull.sh owner={{pull_user}} mode=0755
 
+- name: pull-configure | Configure vars
+  template: src=pull.json.j2 dest={{pull_base_directory}}/pull.json owner={{pull_user}} mode=0755
 
 - name: pull-configure | Configure cron
   template: src=cron.j2 dest=/etc/cron.d/ansible-pull owner=root group=root mode=0644
