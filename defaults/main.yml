@@ -9,6 +9,9 @@ pull_user_ssh_home: ~{{pull_user}}/.ssh
 pull_base_directory: /etc/ansible/local # ansible-pull base directory
 pull_logs_directory: "{{pull_base_directory}}/logs"
 pull_work_directory: "{{pull_base_directory}}/work"
+pull_extra_vars: {}                     # Extra variables for pull
+                                        # Ex. pull_extra_vars:
+                                        #       version: 1.2
 
 # Repository params
 pull_repo_url: ""
