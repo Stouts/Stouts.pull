@@ -23,4 +23,5 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
 
-  - [ -f /etc/cron.d/ansible-pull ] || exit 1
+  - command -v ansible || exit 1
+  - test -f /etc/cron.d/ansible-pull || exit 1
