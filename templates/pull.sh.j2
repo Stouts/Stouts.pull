@@ -6,6 +6,8 @@
 LOGFILE="{{pull_logs_directory}}/pull.log"
 touch $LOGFILE
 
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
 echo
 echo "PULL: [ansible-pull] run $(date)" >> $LOGFILE
 
