@@ -15,4 +15,6 @@ ps -ef | grep ansible-pull | grep -v grep && echo "PULL: [ansible-pull] Already 
 
 ansible-pull -d {{pull_work_directory}} -U {{pull_repo_url}} -C {{pull_repo_version}} {{"-o" if pull_only_if_changed else ""}} {{ ("-i " + pull_inventory) if pull_inventory else ""}} -e "@{{pull_base_directory}}/pull.json" -{{pull_verbose}} {{pull_playbook}}>> $LOGFILE 2>&1
 
+[ -d {{pull_work_directory}}/.git ] && cd {{pull_work_directory}} && git submodule update --init >> $LOGFILE 2>&1
+
 exit $?
