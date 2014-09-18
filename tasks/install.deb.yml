@@ -12,3 +12,7 @@
 
 - name: pull-install | Install ansible
   apt: pkg=ansible
+
+- name: pull-install | Install mailutils
+  apt: pkg=mailutils
+  when: pull_mail_to != ""
