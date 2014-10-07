@@ -11,30 +11,32 @@
     state="present"
     create="yes"
     owner="{{pull_user}}"
+    group="{{pull_group}}"
     mode="0644"
   with_items: pull_fingerprints
 
 - name: pull-configure | Copy private key
-  copy: src={{pull_private_key_path}} dest={{pull_user_ssh_home}}/id_rsa owner={{pull_user}} mode=0400
+  copy: src={{pull_private_key_path}} dest={{pull_user_ssh_home}}/id_rsa owner={{pull_user}} group={{pull_group}} mode=0400
   when: pull_private_key_path != ""
 
 - name: pull-configure | Create pull directories
-  file: state=directory owner={{pull_user}} path={{item}} recurse=yes
+  file: state=directory owner={{pull_user}} group={{pull_group}} path={{item}} recurse=yes
   with_items:
       - "{{pull_base_directory}}"
       - "{{pull_logs_directory}}"
       - "{{pull_work_directory}}"
 
+- name: pull-configure | Configure inventory file
+  template: src=inventory.ini.j2 dest={{pull_base_directory}}/inventory.ini owner={{pull_user}} group={{pull_group}} mode=0644
 
 - name: pull-configure | Configure runscript
-  template: src=pull.sh.j2 dest={{pull_base_directory}}/pull.sh owner={{pull_user}} mode=0755
+  template: src=pull.sh.j2 dest={{pull_base_directory}}/pull.sh owner={{pull_user}} group={{pull_group}} mode=0755
 
 - name: pull-configure | Configure vars
-  template: src=pull.json.j2 dest={{pull_base_directory}}/pull.json owner={{pull_user}} mode=0755
+  template: src=pull.json.j2 dest={{pull_base_directory}}/pull.json owner={{pull_user}} group={{pull_group}} mode=0755
 
 - name: pull-configure | Configure cron
   template: src=cron.j2 dest=/etc/cron.d/ansible-pull owner=root group=root mode=0644
-
 
 - name: pull-configure | Configure logrotate
   template: src=logrotate.j2 dest=/etc/logrotate.d/ansible-pull owner=root group=root mode=0644
