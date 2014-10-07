@@ -13,11 +13,8 @@ echo "PULL: [ansible-pull] run $(date)" >> $LOGFILE
 
 do_sendmail() {
 
-    BODY=$1
-    SUBJECT=${2:-[{{inventory_hostname}}]PULL}
-
     command -v mail || return 1
-    echo -e "$BODY" | mail -s "$SUBJECT" "{{ pull_mail_to }}"
+    echo -e "$1" | mail -s "[{{inventory_hostname}}]PULL" "{{ pull_mail_to }}"
 
 }
 
