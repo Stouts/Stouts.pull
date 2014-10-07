@@ -23,16 +23,18 @@ do_sendmail() {
 
 ps -ef | grep ansible-pull | grep -v grep && echo "PULL: [ansible-pull] Already running - EXIT" >> $LOGFILE && exit 1
 
-ansible-pull -d {{pull_work_directory}} -U {{pull_repo_url}} -C {{pull_repo_version}} {{"-o" if pull_only_if_changed else ""}} {{ ("-i " + pull_work_directory + "/" + pull_inventory) if pull_inventory else ""}} -e "@{{pull_base_directory}}/pull.json" -{{pull_verbose}} {{pull_playbook}}>> $LOGFILE 2>&1
+ansible-pull -d {{pull_work_directory}} -i {{pull_base_directory}}/inventory.ini -U {{pull_repo_url}} -C {{pull_repo_version}} {{"-o" if pull_only_if_changed else ""}} -e "@{{pull_base_directory}}/pull.json" -{{pull_verbose}} {{pull_playbook}}>> $LOGFILE 2>&1
 
 {% if pull_mail_to %}
-[ $? -ne 0 ]; then
+if [ $? -ne 0 ]; then
     echo "I am trying to send notify about an error."
     do_sendmail "{{inventory_hostname}} updating has failed."
 fi
 {% endif %}
 
-[ -d {{pull_work_directory}}/.git ] && cd {{pull_work_directory}} && git submodule update --init >> $LOGFILE 2>&1
+if [ $? -eq 0 ]; then
+    [ -d {{pull_work_directory}}/.git ] && cd {{pull_work_directory}} && git submodule update --init >> $LOGFILE 2>&1
+fi
 
 
 exit $?

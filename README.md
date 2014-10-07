@@ -5,6 +5,8 @@ Stouts.pull
 
 Ansible role which manage [ansible-pull](http://docs.ansible.com/playbooks_intro.html#ansible-pull)
 
+The role allows to you easy setup automatic updates for your server with `ansible-pull`.
+
 * Install and configure ansible-pull
 * Setup SSH hosts and keys
 * Setup cron task
@@ -19,11 +21,12 @@ pull_enabled: yes                       # The role is enabled
 pull_ansible_ppa: ppa:rquillo/ansible   # Ansible ppa repository
 pull_schedule: '*/15 * * * *'           # Schedule crontab
 pull_user: "{{ansible_ssh_user}}"       # Run from user
+pull_group: "{{pull_user}}"
 pull_user_ssh_home: ~{{pull_user}}/.ssh
-pull_base_directory: /etc/ansible/local # ansible-pull setup directory
+pull_base_directory: /etc/ansible/local # ansible-pull base directory
 pull_logs_directory: "{{pull_base_directory}}/logs"
 pull_work_directory: "{{pull_base_directory}}/work"
-pull_extra_vars: {}                     # Extra variables for pull
+pull_extra_vars: {}                     # Extra variables for pulling
                                         # Ex. pull_extra_vars:
                                         #       version: 1.2
 
@@ -32,7 +35,8 @@ pull_repo_url: ""
 pull_repo_version: "HEAD"
 pull_only_if_changed: no
 pull_playbook: ""
-pull_inventory: ""
+pull_inventory:                         # Inventory hosts (each line will be addded to inventory as is)
+- "{{inventory_hostname}} ansible_ssh_host=127.0.0.1"
 pull_verbose: v
 
 pull_fingerprints:
@@ -40,6 +44,8 @@ pull_fingerprints:
    - "github.com,204.232.175.90 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="
 
 pull_private_key_path: ""
+
+pull_mail_to: ""                        # Set to enable notifications about errors
 ```
 
 #### Usage
@@ -63,6 +69,8 @@ Example:
     pull_private_key_path: "{{inventory_dir}}/keys/deploy"
     pull_playbook: "deploy/playbook.yml"
     pull_inventory: "deploy/inventory.ini"
+    pull_extra_vars:
+      pull_private_key_path: "{{pull_work_directory}}/keys/deploy" # !! Inventory directory will be changed
 
 ```
 
