@@ -8,7 +8,7 @@
     - python-software-properties
 
 - name: pull-install | Add ansible ppa
-  apt_repository: repo={{pull_ansible_ppa}}
+  apt_repository: repo={{pull_ansible_ppa}} update_cache=yes
 
 - name: pull-install | Install ansible
   apt: pkg=ansible
