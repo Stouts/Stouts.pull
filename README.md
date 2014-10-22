@@ -1,7 +1,9 @@
 Stouts.pull
 ===========
 
-[![Build Status](https://travis-ci.org/Stouts/Stouts.pull.png)](https://travis-ci.org/Stouts/Stouts.pull)
+[![Build Status](http://img.shields.io/travis/Stouts/Stouts.pull.svg?style=flat-square)](https://travis-ci.org/Stouts/Stouts.pull)
+[![Galaxy](http://img.shields.io/badge/galaxy-Stouts.pull-blue.svg?style=flat-square)](https://galaxy.pull.com/list#/roles/908)
+[![Tag](http://img.shields.io/github/tag/Stouts/Stouts.pull.svg?style=flat-square)]()
 
 Ansible role which manage [ansible-pull](http://docs.ansible.com/playbooks_intro.html#ansible-pull)
 
