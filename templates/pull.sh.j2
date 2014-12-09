@@ -24,7 +24,7 @@ do_pull() {
     cp -f ~/.ssh/$key ~/.ssh/id_rsa
 
     echo "PULL: Check for ansible-pull is already running" >> $logfile
-    ps -ef | grep ansible-pull | grep -v grep && echo "PULL: Already running - EXIT" >> $logfile && return 1
+    ps -ef | grep /usr/bin/ansible-pull | grep -v grep && echo "PULL: Already running - EXIT" >> $logfile && return 1
 
     echo "PULL: Check reposotiry" >> $logfile
     ansible-pull -d $prefix -i $prefix.ini -U $repo -C $version $changed -e "@$prefix.json" -{{pull_verbose}} $playbook >> $logfile 2>&1
