@@ -18,7 +18,7 @@ do_pull() {
     local changed="$7"
 
     touch $logfile
-    echo "\nPULL: Start $(date)" >> $logfile
+    echo "PULL: Start $(date)" >> $logfile
 
     echo "PULL: Copy private key" >> $logfile
     cp -f ~/.ssh/$key ~/.ssh/id_rsa
@@ -26,7 +26,7 @@ do_pull() {
     echo "PULL: Check for ansible-pull is already running" >> $logfile
     ps -ef | grep /usr/bin/ansible-pull | grep -v grep && echo "PULL: Already running - EXIT" >> $logfile && return 1
 
-    echo "PULL: Check reposotiry" >> $logfile
+    echo "PULL: Check repository" >> $logfile
     ansible-pull -d $prefix -i $prefix.ini -U $repo -C $version $changed -e "@$prefix.json" -{{pull_verbose}} $playbook >> $logfile 2>&1
 
 {% if pull_mail_to %}
