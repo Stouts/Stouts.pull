@@ -39,7 +39,7 @@ pull_schedule: '*/15 * * * *'           # Schedule crontab
 pull_sources: []                        # Define your sources to control
                                         # Ex: pull_sources:
                                         #     - name: myproject
-                                        #       repo: https://github.com/Stouts/Django-application.git
+                                        #       repo: git@github.com:Stouts/Django-application.git
                                         #       version: develop
                                         #       playbook: deploy/playbook.yml
                                         #       vars:
@@ -81,7 +81,7 @@ Example:
     # Followed repositories
     pull_sources:
     - name: myproject
-      repo: https://github.com/Stouts/Django-application.git
+      repo: git@github.com:Stouts/Django-application.git
       version: develop
       playbook: deploy/playbook.yml
       vars:
