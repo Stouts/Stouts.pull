@@ -46,6 +46,9 @@ do_pull() {
 
 # Restore PATH
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+{% for ename, eval in pull_env.items() %}
+export {{ename}}={{eval}}
+{% endfor %}
 
 {% for app in pull_sources %}
 

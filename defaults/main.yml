@@ -32,6 +32,7 @@ pull_playbook:                          # Set to related path to main playbook f
 pull_extra_vars: {}                     # Extra variables for pull
                                         # Ex. pull_extra_vars:
                                         #       version: 1.2
+pull_env: {}                            # Pull environment variables
 pull_repo:
 pull_version: "HEAD"
 pull_only_if_changed: no
