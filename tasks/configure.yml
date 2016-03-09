@@ -13,11 +13,20 @@
     owner="{{pull_user}}"
     group="{{pull_group}}"
     mode="0644"
-  with_items: pull_fingerprints
+  with_items: "{{pull_fingerprints}}"
 
 - name: pull-configure | Copy private keys
   copy: src={{item}} dest={{pull_user_ssh_home}}/{{item|basename}} owner={{pull_user}} group={{pull_group}} mode=0400
-  with_items: pull_private_keys
+  with_items: "{{pull_ssh_keys_copy}}"
+
+- name: pull-configure | Copy private keys
+  file:
+    content: "{{item.value}}"
+    dest: "{{pull_user_ssh_home}}/{{item.key}}"
+    owner: "{{pull_user}}"
+    group: "{{pull_group}}"
+    mode: 0400
+  with_dict: "{{pull_ssh_keys}}"
 
 - name: pull-configure | Create pull directories
   file: state=directory owner={{pull_user}} group={{pull_group}} path={{item}} recurse=yes
@@ -27,11 +36,11 @@
 
 - name: pull-configure | Configure inventory file
   template: src=inventory.ini.j2 dest={{pull_workdir}}/{{item.name}}.ini owner={{pull_user}} group={{pull_group}} mode=0644
-  with_items: pull_sources
+  with_items: "{{pull_sources}}"
 
 - name: pull-configure | Configure vars
   template: src=pull.json.j2 dest={{pull_workdir}}/{{item.name}}.json owner={{pull_user}} group={{pull_group}} mode=0755
-  with_items: pull_sources
+  with_items: "{{pull_sources}}"
 
 - name: pull-configure | Configure runscript
   template: src=pull.sh.j2 dest={{pull_workdir}}/pull.sh owner={{pull_user}} group={{pull_group}} mode=0755
