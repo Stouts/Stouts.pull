@@ -1,15 +1,15 @@
 ---
 
 - name: pull-install | Install requirements
-  apt: pkg={{item}}
+  apt: name={{item}}
   with_items: [cron, logrotate, python-software-properties]
 
 - name: pull-install | Add ansible ppa
   apt_repository: repo={{pull_ansible_ppa}} update_cache=yes
 
 - name: pull-install | Install ansible
-  apt: pkg=ansible
+  apt: name=ansible
 
 - name: pull-install | Install mailutils
-  apt: pkg=mailutils
+  apt: name=mailutils
   when: pull_mail_to != ""

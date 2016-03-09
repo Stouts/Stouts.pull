@@ -1,0 +1,13 @@
+---
+
+- name: Remove pull directories
+  file: state=absent name={{item}}
+  with_items:
+  - "{{pull_logdir}}"
+  - "{{pull_workdir}}"
+
+- name: Remove cron configuration
+  file: state=absent name=/etc/cron.d/ansible-pull
+
+- name: Remove logrotate configuration
+  file: state=absent name=/etc/logrotate.d/ansible-pull

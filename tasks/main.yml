@@ -1,5 +1,9 @@
 ---
 
 - include: pull.yml
-  when: pull_enabled
+  when: pull_enabled and not pull_removed
+  tags: [pull]
+
+- include: remove.yml
+  when: pull_removed
   tags: [pull]
